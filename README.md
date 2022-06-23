@@ -52,11 +52,11 @@ The lessons in this course are:
 
 4.  Mutate
 
-5.  Summarize
+5.  (pending release) Summarize
 
-6.  Concatenate
+6.  (pending release) Concatenate
 
-7.  Joins
+7.  (pending release) Joins
 
 Begin a lesson by clicking *Start Tutorial*. We recommend viewing the lesson in a new window, and to do that, you'll just need to click the *Show in new window* icon at the top left of the Tutorial Pane.
 
