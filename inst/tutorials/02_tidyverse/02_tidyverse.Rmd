@@ -1,0 +1,112 @@
+---
+title: "R for Data Manipulation Part 2: The Tidyverse"
+description: "Learning Objective: Explain the advantages of using the Tidyverse for data manipulation."
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Getting Started
+
+You just learned about indexing data frames, and you will see this applied quite often in R. However, one downside of indexing data frames in R is that the code is hard to interpret. Let's just take a look at the code snippet below:
+
+    top_performers <- course_records[
+      rowSums(course_records[, c("Week.1.Attendance", "Week.2.Attendance", "Week.3.Attendance", "Week.4.Attendance", "Week.5.Attendance")]) >= 4 & 
+      course_records[, "Post.Assessment.Score"] - course_records[, "Pre.Assessment.Score"] > 0 & 
+      course_records[, "Post.Assessment.Score"] >= 0.8, 
+      "Name"
+    ]
+
+    top_performers
+
+Based on the code above, it's hard to tell who's included in `top_performers`. Thankfully, there's a newer approach to doing this same task. Let's see what it looks like.
+
+    course_records <- course_records %>%
+      mutate(
+        total_attendance = Week.1.Attendance + Week.2.Attendance + Week3.Attendance + Week.4.Attendance + Week.5.Attendance,
+        assessment_improvement = Post.Assessment.Score - Pre.Assessment.Score
+      ) 
+      
+    top_performers <- course_records %>%
+      filter(
+        total_attendance >= 4 &
+        assessment_improvement > 0 &
+        Post.Assessment.Score >= 0.8
+      ) %>%
+      select(Name)
+
+    top_performers
+
+Based on the code snippet above, it is much easier to figure out the top performers consist of students who:
+
+-   Attended class at least 4 times (`total_attendance >= 4`).
+
+-   Improved their assessment score (`assessment_improvement > 0`).
+
+-   Scored at least 80 percent on their post assessment (`Post.Assessment.Score >= 0.8`)
+
+The second code snippet is easier to read because it uses the Tidyverse!
+
+## The Tidyverse
+
+According to its creators, the **Tidyverse** is a set of R packages that:
+
+["facilitate a conversation between a human and a computer about data."](https://cran.r-project.org/web/packages/tidyverse/vignettes/paper.html)
+
+In other words, code created from the Tidyverse was designed to be easier to read. It provides a way to more closely align your code with the way you would describe your analysis.
+
+[![Tidyverse Logo](images/tidyverse-logo.png){width="50%"}](https://tidyverse.tidyverse.org/articles/paper.html)
+
+Let's take a look at the Tidyverse code snippet again:
+
+    course_records <- course_records %>%
+      mutate(
+        total_attendance = Week.1.Attendance + Week.2.Attendance + Week3.Attendance + Week.4.Attendance + Week.5.Attendance,
+        assessment_improvement = Post.Assessment.Score - Pre.Assessment.Score
+      ) 
+      
+    top_performers <- course_records %>%
+      filter(
+        total_attendance >= 4 &
+        assessment_improvement > 0 &
+        Post.Assessment.Score >= 0.8
+      ) %>%
+      select(Name)
+
+    top_performers
+
+Notice how even though you haven't learned about `%>%`, `mutate`, `filter`, and `select`, you are able to reasonably guess their functionality.
+
+## Knowledge Check
+
+Take a look at the code snippet and answer the question:
+
+    library(tidyverse)
+
+    prescriptions_df <- prescriptions_df[
+      prescriptions_df$RXDUSE == 1,
+      c("SEQN", "RXDDRUG")
+    ]
+
+```{r KC-1, echo=FALSE}
+question("TRUE or FALSE: The code snippet above is using the Tidyverse approach.",
+  answer("TRUE ", message = "Not quite. This was a trick question! Even though we loaded the tidyverse package, using square brackets to index data frames is the traditional or base R approach."),
+  answer("FALSE ", correct = TRUE, message = "That's right!"),
+  type="single",
+  allow_retry = TRUE
+)
+```
+
+## Summary
+
+| Vocabulary | Definition                                                                                                     |
+|:------------|:---------------------------------------------------------|
+| Tidyverse  | A set of R packages designed with the philosophy of aligning code with the language used to describe analysis. |
+
+**References**
+
+-   Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D'Agostino McGowan, Romain François, Garrett Grolemund, Alex Hayes, Lionel Henry, Jim Hester, Max Kuhn, Thomas Lin Pedersen, Evan Miller, Stephan Milton Bache, Kirill Müller, Jeroen Ooms, David Robinson, Dana Paige Seidel, Vitalie Spinu, Kohske Takahashi, Davis Vaughan, Claus Wilke, Kara Woo, Hiroaki Yutani. *Welcome to the Tidyverse*. <https://tidyverse.tidyverse.org/articles/paper.html>

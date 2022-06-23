@@ -1,0 +1,58 @@
+---
+title: "R for Data Manipulation Part 0: Introduction"
+description: "Every data science projects involve some form of data manipulation. Let's learn some techniques to do it effectively with R!"
+output: learnr::tutorial
+runtime: shiny_prerendered
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Course Overview
+
+Every data science projects involve some form of data manipulation.
+Let's learn some data manipulation techniques with R! The topics we'll
+cover are:
+
+1.  Data Frames
+
+2.  The Tidyverse
+
+3.  Subset
+
+4.  Mutate
+
+5.  Summarize
+
+6.  Concatenate
+
+7.  Joins
+
+### Prerequisites
+
+You should be familiar with the concepts covered in [R for
+Everyone](https://github.com/UCSF-DSI/r4e) prior to beginning this
+course.
+
+### Course Authors
+
+-   [Karla Lindquist, PhD](http://profiles.ucsf.edu/karla.lindquist) is
+    the Scientific Lead for the Data Science Initiative in the UCSF
+    Library.
+-   [Albert Lee](https://www.linkedin.com/in/albemlee/) is an
+    Instructional Designer and Analyst for the Data Science Initiative
+    in the UCSF Library.
+
+### Creative Commons
+
+All materials and topics in this course are subject to periodical
+changes and updates by the Instructor. This work is licensed under a
+[Creative Commons Attribution-NonCommercial 4.0 International
+License](http://creativecommons.org/licenses/by-nc/4.0/).
+
+![](images/creative_commons.png)

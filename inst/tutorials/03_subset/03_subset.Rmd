@@ -1,0 +1,179 @@
+---
+title: "R for Data Manipulation Part 3: Subsetting Tibbles"
+description: "Learning Objective: Filter rows and select columns in tibbles."
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+library(tidyverse)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Getting Started
+
+Run the code below and let's see if you can figure out what the code below does.
+
+```{r exercise_setup, include=FALSE}
+dir.create("data")
+course_records <- read.csv(url("https://raw.githubusercontent.com/UCSF-DSI/UCSFDSILearnr/main/data/course_records.csv"))
+
+course_records <- course_records %>%
+  mutate(
+    total_attendance = Week.1.Attendance + Week.2.Attendance + Week.3.Attendance + Week.4.Attendance + Week.5.Attendance,
+    assessment_improvement = Post.Assessment.Score - Pre.Assessment.Score
+  ) 
+write.csv(course_records, "data/course_records.csv", row.names=FALSE)
+```
+
+```{r exercise_01, exercise=TRUE, exercise.setup="exercise_setup"}
+course_records %>%
+  filter(
+    total_attendance >= 4
+  ) %>%
+  select(Name, Post.Assessment.Score)
+```
+
+```{r exercise_01_mc, echo=FALSE}
+question("Which statement below matches the code above?",
+  answer("Select the name of students and post assessment score of students.", message = "Not quite! Try again."),
+  answer("Select the name of students who attended class at least four times.", message = "Not quite! Try again."),
+  answer("Select the post assessment score of students who attended class at least four times.", message = "Not quite! Try again."),
+  answer("Select the name and post assessment score of students who attended class at least four times.", correct = TRUE),
+  allow_retry = TRUE
+)
+```
+
+During data manipulation, you often have to subset your data. The key concepts you need to understand to subset data with the Tidyverse are:
+
+-   Tibbles
+
+-   The Pipe Operator
+
+-   Filter
+
+-   Select
+
+## Tibbles
+
+**Tibbles** are a modern take on data frames. They are very similar to data frames, but:
+
+-   Tibbles have a nicer print method.
+
+-   Indexing behaves slightly differently.
+
+    -   `[]` returns another tibble
+
+    -   `[[]]` returns a vector
+
+Even though you often see the terms data frame and tibble used interchangeable, it's still important to understand the differences. Tibbles will cause errors when you are working with code and packages that don't use the Tidyverse.
+
+[![Tibble Logo](images/tibble_logo.png){width="75%"}](https://tibble.tidyverse.org/)
+
+To read a csv file into a tibble, you'll need to use the `read_csv()` function (not the `read.csv()` function. See the example below:
+
+    # Don't forget to load the tidyverse package!
+    library(tidyverse)
+
+    # This reads in a csv file as a tibble
+    course_records_tbl <- read_csv("course_records.csv")
+
+    # This reads in a csv file as a standard dataframe
+    course_records_df <- read.csv("course_records.csv")
+
+## The Pipe Operator
+
+    course_records %>%
+      filter(
+        total_attendance >= 4
+      ) %>%
+      select(Name, Post.Assessment.Score)
+
+The **Pipe Operator** `%>%` pipes data (on left-hand side) to the first argument of a function (on the right-hand side). Without the pipe operator, the code above might look something like this:
+
+    select(
+      filter(
+        course_records,
+        total_attendance >= 4
+      ),
+      Name, Post.Assessment.Score
+    )
+
+By using the pipe operator, you make your code easier to interpret. In addition, all functions in the Tidyverse are designed to work with the pipe operator.
+
+## Filtering Rows and Selecting Columns
+
+Now let's discuss actual subsetting of data. You can:
+
+-   **Filter** rows in a tibble (`filter()`).
+-   **Select** columns in a tibble (`select()`).
+
+<details>
+
+<summary>
+
+**Pro Tip**
+
+</summary>
+
+In R, you generally want each row to represent an observation and each column to represent a variable. Most packages in R are designed to work with data frames or tibbles formatted this way.
+
+</details>
+
+<br />
+
+In most cases, you'll want to filter your rows before selecting columns. This habit will help prevent mistakes. The exception to this is when you are working with large data sets that take up a significant portion of your computer's memory. When there are computer memory management concerns, it makes sense to reduce the size of your data by first selecting the columns you need for your analysis.
+
+## Knowledge Check
+
+The base R code subsets a data frame:
+
+    course_records[
+      course_records[, "total_attendance"] < 3 &
+      course_records[, "Post.Assessment.Score"] - course_records[, "Pre.Assessment.Score"] > 0 &
+      course_records[, "Week.2.Attendance"] == FALSE,
+      c("Name", "total_attendance", "Post.Assessment.Score")
+    ]
+
+Rewrite it using the Tidyverse(e.g. `%>%`, `filter()`, `select()`)
+
+```{r KC, exercise=TRUE, exercise.lines=10, exercise.setup="exercise_setup"}
+library(tidyverse)
+
+
+```
+
+```{r KC-solution}
+library(tidyverse)
+
+course_records %>%
+  filter(
+    total_attendance < 3 &
+    Post.Assessment.Score - Pre.Assessment.Score > 0 &
+    Week.2.Attendance == FALSE
+  ) %>%
+  select(Name, total_attendance, Post.Assessment.Score)
+```
+
+## Summary
+
+| Vocabulary          | Definition                                                                                                     |
+|:------------------|:----------------------------------------------------|
+| Tidyverse           | A set of R packages designed with the philosophy of aligning code with the language used to describe analysis. |
+| Tibble              | A modern take on data frames.                                                                                  |
+| Pipe Operator `%>%` | Pipes data (on left-hand side) to the first argument of a function (on the right-hand side).                   |
+| Select              | Subset columns of a tibble.                                                                                    |
+| Filter              | Subset rows of a tibble.                                                                                       |
+
+**References**
+
+-   Müller K, Wickham H. *tibble: Simple Data Frames*. <https://tibble.tidyverse.org/>[.](https://github.com/tidyverse/tibble.){.uri}
+
+-   Milton Bache, Stefan, Hadley Wickham, Lionel Henry. *Pipe.* <https://magrittr.tidyverse.org/reference/pipe.html>
+
+-   Wickham, Hadley, Romain François, Lionel Henry, Kirill Müller. *Subset columns using their names and types.* <https://dplyr.tidyverse.org/reference/select.html>
+
+-   Wickham, Hadley, Romain François, Lionel Henry, Kirill Müller. *Subset rows using column values.*<https://dplyr.tidyverse.org/reference/filter.html>
+
+### 
