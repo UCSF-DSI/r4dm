@@ -1,6 +1,6 @@
 ---
 title: "R for Data Manipulation Part 4: Mutating Variables"
-description: "Learning Objective: Filter rows and select columns in tibbles."
+description: "Learning Objective: Use mutate to create new columns or adjust existing columns in tibbles."
 output: learnr::tutorial
 runtime: shiny_prerendered
 ---
@@ -40,6 +40,8 @@ Wouldn't it be nice if we could just say *total attendance* instead of *week 1 a
 This is where mutate comes in.
 
 ## Mutate
+
+![Mutate new columns](images/mutate.png){width="40%"}
 
 The **mutate** function (`mutate()`) changes existing columns or creates new ones. For example, we can create a new column called *total_attendance* to represent the sum of all the attendance columns.
 
@@ -95,7 +97,7 @@ course_records %>%
 ## Summary
 
 | Vocabulary        | Definition                                                                                                     |
-|:-------------------|:---------------------------------------------------|
+|:---------------------|:-------------------------------------------------|
 | Tidyverse         | A set of R packages designed with the philosophy of aligning code with the language used to describe analysis. |
 | Mutate `mutate()` | Create a new column or update an existing one.                                                                 |
 
