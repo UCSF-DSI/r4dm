@@ -19,17 +19,19 @@ course_records <- read.csv(url("https://raw.githubusercontent.com/UCSF-DSI/UCSFD
 
 Take a look at the code below:
 
-    course_records %>%
-      filter(
-        (
-          Week.1.Attendance +
-          Week.2.Attendance +
-          Week.3.Attendance +
-          Week.4.Attendance +
-          Week.5.Attendance
-        ) > 2
-      ) %>%
-      select(Name, Grade)
+```{r getting_started_01, exercise=TRUE, exercise.setup="exercise_setup"}
+course_records %>%
+  filter(
+    (
+      Week.1.Attendance +
+      Week.2.Attendance +
+      Week.3.Attendance +
+      Week.4.Attendance +
+      Week.5.Attendance
+    ) > 2
+  ) %>%
+  select(Name, Grade)
+```
 
 If we were to describe it, it'd be something along the lines of this:
 
@@ -45,21 +47,25 @@ This is where mutate comes in.
 
 The **mutate** function (`mutate()`) changes existing columns or creates new ones. For example, we can create a new column called *total_attendance* to represent the sum of all the attendance columns.
 
-    course_records %>%
-      mutate(
-        total_attendance = Week.1.Attendance + Week.2.Attendance + Week.3.Attendance + Week.4.Attendance + Week.5.Attendance
-      )
+```{r mutate_01, exercise=TRUE, exercise.setup="exercise_setup"}
+course_records %>%
+  mutate(
+    total_attendance = Week.1.Attendance + Week.2.Attendance + Week.3.Attendance + Week.4.Attendance + Week.5.Attendance
+  )
+```
 
 It is generally a good idea to mutate columns before doing any subsetting. That way, you can use the columns you adjusted or created in `filter()` or `select()`.
 
-    course_records %>%
-      mutate(
-        total_attendance = Week.1.Attendance + Week.2.Attendance + Week.3.Attendance + Week.4.Attendance + Week.5.Attendance
-      ) %>%
-      filter(
-        total_attendance > 2
-      ) %>%
-      select(Name, Grade, total_attendance)
+```{r mutate_02, exercise=TRUE, exercise.setup="exercise_setup"}
+course_records %>%
+  mutate(
+    total_attendance = Week.1.Attendance + Week.2.Attendance + Week.3.Attendance + Week.4.Attendance + Week.5.Attendance
+  ) %>%
+  filter(
+    total_attendance > 2
+  ) %>%
+  select(Name, Grade, total_attendance)
+```
 
 ## Knowledge Check
 
@@ -97,7 +103,7 @@ course_records %>%
 ## Summary
 
 | Vocabulary        | Definition                                                                                                     |
-|:---------------------|:-------------------------------------------------|
+|:------------------|:---------------------------------------------------------------------------------------------------------------|
 | Tidyverse         | A set of R packages designed with the philosophy of aligning code with the language used to describe analysis. |
 | Mutate `mutate()` | Create a new column or update an existing one.                                                                 |
 
